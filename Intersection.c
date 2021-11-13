@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "Set.h"
 #include <time.h>
+
 /* l'algorithme generique d'intersection */
 StringArray* getIntersection(const StringArray* array1, const StringArray* array2){
 	
