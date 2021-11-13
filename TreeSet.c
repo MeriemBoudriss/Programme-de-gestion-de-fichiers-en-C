@@ -1,12 +1,12 @@
 /*fichier d'implementation des fontions 
-pour Set implementé avec les ABR */
+pour Set implementé avec les ABR Arbres binaires de recherche */
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "tree.h" /*pour utiliser les fontions des arbres */
+#include "tree.h" /*Pour utiliser les fontions des arbres */
 #include "Set.h"
 
 struct set_t{
@@ -15,6 +15,7 @@ struct set_t{
 };
 
 /**************************************************************/
+/*Creation d'un Set vide avec allocation de memoire*/
 Set* createEmptySet(void){
 	
 	Set * res= (Set*)malloc(sizeof(Set));
@@ -33,6 +34,7 @@ Set* createEmptySet(void){
 	return res;
 }
 /**************************************************************/
+/*liberer l'espace memoire occuper par un arbre*/
 void freeSet(Set* set){
 	if(set==NULL)
 		return;
@@ -41,11 +43,14 @@ void freeSet(Set* set){
 	set=NULL;
 }
 /**************************************************************/
-
+/*retourne la taille d'un set, i.e. le nombre d'elements*/
 size_t sizeOfSet(const Set* set){
 	return set->nb_elts;
 }
 /**************************************************************/
+/*inserer un element dans le Set, 
+ *si Set introuvable -> creation d'un nouveau Set + insertion de l'element
+ */
 insert_t insertInSet(Set* set, char* element){
 	
 	if(contains(set,element)){
@@ -64,6 +69,10 @@ insert_t insertInSet(Set* set, char* element){
 	return NEW;
 }
 /**************************************************************/
+/* Verifier si le Set contient un element passe en parametre
+ * effectue une recherche dans le sous-arbre gauche et le sous-arbre droit
+ * retourne vrai si element trouve, faux sinon
+ */
 bool contains(const Set* set, const char* element){
 	if(set==NULL)
 		return false;
@@ -75,13 +84,14 @@ bool contains(const Set* set, const char* element){
 		return search(element,set->arbre->left);
 }	
 /**************************************************************/
-
+/*retourne les elements de l'intersection de 2 arbres sous forme d'une array*/
 StringArray* setIntersection(const Set* set1, const Set* set2){
 	StringArray* array = createEmptyArray();
 	return set_intersection_tree(array,set1->arbre, set2->arbre);
 }
 /***********************************************************************************/
 /* les fonctions pour les arbres binaires de recherche */
+
 tree createEmptyTree(void){
 	tree res= malloc(sizeof(node));
 	res->key= malloc(10*sizeof(char));
@@ -166,6 +176,7 @@ void insert (char* v,node** A){
 	}
 }
 /**************************************************************/		
+/*suppression d'un element*/
 char* delet (char* v, tree *a){
 	char*c;
 	if((*a ==NULL)) return 0;
@@ -202,7 +213,7 @@ char* delet (char* v, tree *a){
 	}
 }
 /**************************************************************/
-
+/*affiche les elements d'un arbre dans l'ordre*/
 void print_inorder (node*A) { 
 	if(A != NULL){
 		print_inorder(A->left);
@@ -211,6 +222,7 @@ void print_inorder (node*A) {
 	}
 }
 /**************************************************************/	
+/*retourne l'element de valeur minimum dans l'arbre de recherche*/
 char* minimum (node*A){
 	if(A == NULL){
 		printf(" arbre vide \n");
@@ -222,7 +234,7 @@ char* minimum (node*A){
 	return A->key ;
 }
 /**************************************************************/				
-				
+/*calcul la hauteur d'un arbre A*/				
 int height (node*A) {
 	if( A == NULL )
 		return -1;
